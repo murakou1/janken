@@ -1,9 +1,11 @@
 package oit.is.z1925.kaizi.janken.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,42 +13,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.z1925.kaizi.janken.model.Entry;
+import oit.is.z1925.kaizi.janken.model.UserMapper;
+import oit.is.z1925.kaizi.janken.model.User;
 
-/**
- * jankenController
- *
- * クラスの前に@Controllerをつけていると，HTTPリクエスト（GET/POSTなど）があったときに，このクラスが呼び出される
- */
 @Controller
 public class JankenController {
 
-  @GetMapping("/janken2")
-  public String janken2() {
-    return "janken.html";
-  }
-
-  /**
-   * POSTを受け付ける場合は@PostMappingを利用する /janken1へのPOSTを受け付けて，FormParamで指定された変数(input
-   * name)をjanken1()メソッドの引数として受け取ることができる
-   *
-   * @param name
-   * @param model
-   * @return
-   */
-  @PostMapping("/janken1")
-  public String janken1(@RequestParam String username, ModelMap model) {
+  @PostMapping("/janken")
+  public String janken_post(@RequestParam String username, ModelMap model) {
     model.addAttribute("username", username);
     return "janken.html";
   }
 
-  /**
-   * @param my_hand
-   * @param model
-   * @return
-   */
+  @Autowired
+  private Entry room;
+  @Autowired
+  UserMapper userMapper;
 
-  @GetMapping("/janken2/{my_hand}")
-  public String janken2(@PathVariable Integer my_hand, ModelMap model) {
+  @GetMapping("/janken")
+  public String janken(Principal prin, ModelMap model) {
+    String loginUser = prin.getName();
+    int id = 1;
+    // ArrayList<User> Users = userMapper.selectAllUsers();
+    User Users = userMapper.selectById(1);
+    // User user3 = userMapper.selectById(id);
+    this.room.addUser(loginUser);
+    model.addAttribute("room", this.room);
+    model.addAttribute("loginUser", loginUser);
+    model.addAttribute("Users", Users);
+
+    return "janken.html";
+  }
+
+  @GetMapping("/janken/{my_hand}")
+  public String janken(@PathVariable Integer my_hand, ModelMap model) {
     int enemy_hand = 1;
     String judge = "", mhand = "", ehand = "";
 
@@ -87,20 +87,9 @@ public class JankenController {
     model.addAttribute("mhand", mhand);
     model.addAttribute("ehand", ehand);
     model.addAttribute("judge", judge);
-    return "janken.html";
-
-  }
-
-  @Autowired
-  private Entry room;
-
-  @GetMapping("/janken2/entry")
-  public String sample38(Principal prin, ModelMap model) {
-    String loginUser = prin.getName();
-    this.room.addUser(loginUser);
-    model.addAttribute("room", this.room);
 
     return "janken.html";
+
   }
 
 }
