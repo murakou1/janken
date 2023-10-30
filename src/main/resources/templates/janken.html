@@ -3,32 +3,46 @@
 
 <head>
   <meta charset="utf-8">
-  <title>janken1</title>
+  <title>janken</title>
 </head>
 
 <body>
   <div><a href="/logout">ログアウト</a></div>
-  <div th:if="${username}">
-    Hi [[${username}]]
+
+  <h1>Janekn GAME!</h1>
+
+  <div th:if="${loginUser}">
+    Hi [[${loginUser}]]
   </div>
 
-  <div><a href="/janken2/entry">エントリー</a></div>
+  <h2>エントリー</h2>
   <div th:if="${room}">
-    DI利用
     <ul>
       <!--roomオブジェクトのroomNoというフィールドを指定している-->
-      <li>RoomNo:[[${room.roomNo}]]</li>
+      <!--<li>RoomNo:[[${room.roomNo}]]</li>-->
       <!--eachは所謂for each．この場合roomオブジェクトのusersフィールドにあるすべてのデータを一通り表示する
-        thが指定されているので[]が不要になる-->
+          thが指定されているので[]が不要になる-->
       <li th:each="user : ${room.users}">[[${user}]]</li>
     </ul>
   </div>
 
-  <a href="/janken2/1">グー</a>
-  <a href="/janken2/2">チョキ</a>
-  <a href="/janken2/3">パー</a>
+  <h2>試合結果</h2>
+
+  <div th:if="${Users}">
+    <ul>
+      <li th:each="id : ${Users.id}">[[${id}]]</li>
+      <li th:each="name : ${Users.name}">[[${name}]]</li>
+    </ul>
+  </div>
+
+
+  <a href="/janken/1">グー</a>
+  <a href="/janken/2">チョキ</a>
+  <a href="/janken/3">パー</a>
   <div th:if="${judge}">
-    あなたの手:[[${mhand}]] CPUの手:[[${ehand}]] 結果:[[${judge}]]
+    <div>あなたの手:[[${mhand}]]</div>
+    <div>CPUの手:[[${ehand}]]</div>
+    <div>結果:[[${judge}]]</div>
   </div>
 </body>
 
