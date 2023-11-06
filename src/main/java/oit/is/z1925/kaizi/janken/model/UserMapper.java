@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
 
-  @Select("SELECT name from users")
+  @Select("SELECT * from users")
   ArrayList<User> selectAllUsers();
 
-  //@Select("SELECT ID, NAME FROM USERS WHERE ID = #{id}")
-  //User selectById(int id);
+  @Select("SELECT * FROM USERS WHERE ID = #{id}")
+  User selectById(int id);
 
   /**
    * #{userName}などはinsertの引数にあるChamberクラスのフィールドを表しています 引数に直接String

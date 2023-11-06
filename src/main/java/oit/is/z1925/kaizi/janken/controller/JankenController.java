@@ -49,10 +49,14 @@ public class JankenController {
     return "janken.html";
   }
 
-  @GetMapping("/janken/{my_hand}")
-  public String janken(@PathVariable Integer my_hand, ModelMap model) {
+  @GetMapping("/fight/{my_hand}")
+  public String fight(@PathVariable Integer my_hand, @RequestParam Integer id, Principal prin, ModelMap model) {
     int enemy_hand = 1;
     String judge = "", mhand = "", ehand = "";
+    String loginUser = prin.getName();
+    User enemy = userMapper.selectById(id);
+    model.addAttribute("loginUser", loginUser);
+    model.addAttribute("enemy", enemy);
 
     if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 || my_hand == 3 & enemy_hand == 1) {
       judge = "勝利";
@@ -92,8 +96,18 @@ public class JankenController {
     model.addAttribute("ehand", ehand);
     model.addAttribute("judge", judge);
 
-    return "janken.html";
+    return "match.html";
 
+  }
+
+  @GetMapping("/match")
+  public String match(@RequestParam Integer id, Principal prin, ModelMap model) {
+    String loginUser = prin.getName();
+    User enemy = userMapper.selectById(id);
+    model.addAttribute("enemy", enemy);
+    model.addAttribute("loginUser", loginUser);
+
+    return "match.html";
   }
 
 }
