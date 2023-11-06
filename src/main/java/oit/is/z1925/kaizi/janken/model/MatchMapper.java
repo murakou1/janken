@@ -13,7 +13,11 @@ public interface MatchMapper {
   @Select("SELECT * from matches")
   ArrayList<Match> selectAllMatches();
 
-  /**
+  @Insert("INSERT INTO matches (user1,user2,user1Hand,user2Hand) VALUES (#{user1},#{user2},#{user1Hand},#{user2Hand})")
+  @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+  void insertMatch(Match match);
+
+   /**
    * #{userName}などはinsertの引数にあるChamberクラスのフィールドを表しています 引数に直接String
    * userNameなどと書いてもいけるはず
    * 下記のOptionsを指定すると，insert実行時にAuto incrementされたIDの情報を取得できるようになる useGeneratedKeys

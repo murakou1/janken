@@ -50,13 +50,14 @@ public class JankenController {
   }
 
   @GetMapping("/fight/{my_hand}")
+  @Transactional
   public String fight(@PathVariable Integer my_hand, @RequestParam Integer id, Principal prin, ModelMap model) {
     int enemy_hand = 1;
     String judge = "", mhand = "", ehand = "";
     String loginUser = prin.getName();
     User enemy = userMapper.selectById(id);
-    model.addAttribute("loginUser", loginUser);
-    model.addAttribute("enemy", enemy);
+    Match match = new Match();
+    int my_id = userMapper.selectByName(loginUser);
 
     if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 || my_hand == 3 & enemy_hand == 1) {
       judge = "勝利";
@@ -68,30 +69,38 @@ public class JankenController {
 
     switch (my_hand) {
       case 1:
-        mhand = "グー";
+        mhand = "Gu";
         break;
       case 2:
-        mhand = "チョキ";
+        mhand = "Choki";
         break;
       case 3:
-        mhand = "パー";
+        mhand = "Pa";
         break;
       default:
         break;
     }
     switch (enemy_hand) {
       case 1:
-        ehand = "グー";
+        ehand = "Gu";
         break;
       case 2:
-        ehand = "チョキ";
+        ehand = "Choki";
         break;
       case 3:
-        ehand = "パー";
+        ehand = "Pa";
         break;
       default:
         break;
     }
+
+    match.setUser1(my_id);
+    match.setUser2(id);
+    match.setUser1Hand(mhand);
+    match.setUser2Hand(ehand);
+    matchMapper.insertMatch(match);
+    model.addAttribute("loginUser", loginUser);
+    model.addAttribute("enemy", enemy);
     model.addAttribute("mhand", mhand);
     model.addAttribute("ehand", ehand);
     model.addAttribute("judge", judge);
