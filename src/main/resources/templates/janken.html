@@ -25,19 +25,23 @@
   -->
 
   <div th:each="user:${Users}">
-    <li> [[${user.name}]]</li>
+    <li>[[${user.name}]]</li>
   </div>
 
   <h2>試合結果</h2>
 
-  <!--
-  <div th:if="${Users}">
-    <ul>
-      <li th:each="id : ${Users.id}">[[${id}]]</li>
-      <li th:each="name : ${Users.name}">[[${name}]]</li>
-    </ul>
+  <p th:if="${Matches}">
+  <div th:each="match:${Matches}">
+    <tr>
+      <td>id:[[${match.id}]]</td>
+      <td>user1:[[${match.user1}]]</td>
+      <td>user2:[[${match.user2}]]</td>
+      <td>user1の手:[[${match.user1Hand}]]</td>
+      <td>user2の手:[[${match.user2Hand}]]</td>
+    </tr>
   </div>
-  -->
+  </p>
+
 
   <a href="/janken/1">グー</a>
   <a href="/janken/2">チョキ</a>
