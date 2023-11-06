@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>match</title>
+</head>
+
+<body>
+  <div><a href="/logout">ログアウト</a></div>
+
+  <h1>Match</h1>
+
+  <h2>
+    [[${loginUser}]] V.S. [[${enemy.name}]]
+  </h2>
+
+  <a th:href="@{/fight/1(id=${enemy.id})}">グー</a>
+  <a th:href="@{/fight/2(id=${enemy.id})}">チョキ</a>
+  <a th:href="@{/fight/3(id=${enemy.id})}">パー</a>
+  <div th:if="${judge}">
+    <div>あなたの手:[[${mhand}]]</div>
+    <div>CPUの手:[[${ehand}]]</div>
+    <div>結果:[[${judge}]]</div>
+  </div>
+  <div><a href="/janken">もどる</a></div>
+</body>
+
+</html>
