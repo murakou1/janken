@@ -16,25 +16,28 @@
   </div>
 
   <h2>エントリー</h2>
-  <div th:if="${room}">
-    <ul>
-      <!--roomオブジェクトのroomNoというフィールドを指定している-->
-      <!--<li>RoomNo:[[${room.roomNo}]]</li>-->
-      <!--eachは所謂for each．この場合roomオブジェクトのusersフィールドにあるすべてのデータを一通り表示する
-          thが指定されているので[]が不要になる-->
-      <li th:each="user : ${room.users}">[[${user}]]</li>
-    </ul>
+  <!--
+     <div th:if="${room}">
+     //<ul>
+       <li th:each="user : ${room.users}">[[${user}]]</li>
+    //</ul>
+   </div>
+  -->
+
+  <div th:each="user:${Users}">
+    <li> [[${user.name}]]</li>
   </div>
 
   <h2>試合結果</h2>
 
+  <!--
   <div th:if="${Users}">
     <ul>
       <li th:each="id : ${Users.id}">[[${id}]]</li>
       <li th:each="name : ${Users.name}">[[${name}]]</li>
     </ul>
   </div>
-
+  -->
 
   <a href="/janken/1">グー</a>
   <a href="/janken/2">チョキ</a>

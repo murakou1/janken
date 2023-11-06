@@ -33,10 +33,8 @@ public class JankenController {
   @GetMapping("/janken")
   public String janken(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
-    int id = 1;
-    // ArrayList<User> Users = userMapper.selectAllUsers();
-    User Users = userMapper.selectById(1);
-    // User user3 = userMapper.selectById(id);
+    ArrayList<User> Users = userMapper.selectAllUsers();
+    // User user = userMapper.selectById(1);
     this.room.addUser(loginUser);
     model.addAttribute("room", this.room);
     model.addAttribute("loginUser", loginUser);
