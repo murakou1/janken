@@ -16,6 +16,8 @@ import oit.is.z1925.kaizi.janken.model.Entry;
 import oit.is.z1925.kaizi.janken.model.UserMapper;
 import oit.is.z1925.kaizi.janken.model.User;
 import oit.is.z1925.kaizi.janken.model.Match;
+import oit.is.z1925.kaizi.janken.model.MatchInfo;
+import oit.is.z1925.kaizi.janken.model.MatchInfoMapper;
 import oit.is.z1925.kaizi.janken.model.MatchMapper;
 
 @Controller
@@ -33,6 +35,8 @@ public class JankenController {
   UserMapper userMapper;
   @Autowired
   MatchMapper matchMapper;
+  @Autowired
+  MatchInfoMapper matchInfoMapper;
 
   @GetMapping("/janken")
   public String janken(Principal prin, ModelMap model) {
@@ -56,9 +60,9 @@ public class JankenController {
     String judge = "", mhand = "", ehand = "";
     String loginUser = prin.getName();
     User enemy = userMapper.selectById(id);
-    Match match = new Match();
+    MatchInfo matchInfo = new MatchInfo();
     int my_id = userMapper.selectByName(loginUser);
-    boolean isActive = false;
+    boolean isActive = true;
 
     if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 || my_hand == 3 & enemy_hand == 1) {
       judge = "勝利";
@@ -95,19 +99,19 @@ public class JankenController {
         break;
     }
 
-    match.setUser1(my_id);
-    match.setUser2(id);
-    match.setUser1Hand(mhand);
-    match.setUser2Hand(ehand);
-    match.setIsActive(isActive);
-    matchMapper.insertMatch(match);
+    matchInfo.setUser1(my_id);
+    matchInfo.setUser2(id);
+    matchInfo.setUser1Hand(mhand);
+    // match.setUser2Hand(ehand);
+    matchInfo.setIsActive(isActive);
+    matchInfoMapper.insertMatchInfo(matchInfo);
     model.addAttribute("loginUser", loginUser);
     model.addAttribute("enemy", enemy);
     model.addAttribute("mhand", mhand);
     model.addAttribute("ehand", ehand);
     model.addAttribute("judge", judge);
 
-    return "match.html";
+    return "wait.html";
 
   }
 
@@ -120,5 +124,73 @@ public class JankenController {
 
     return "match.html";
   }
+
+  /*
+   * @GetMapping("/fight/{my_hand}")
+   * 
+   * @Transactional
+   * public String fight(@PathVariable Integer my_hand, @RequestParam Integer id,
+   * Principal prin, ModelMap model) {
+   * int enemy_hand = 1;
+   * String judge = "", mhand = "", ehand = "";
+   * String loginUser = prin.getName();
+   * User enemy = userMapper.selectById(id);
+   * Match match = new Match();
+   * int my_id = userMapper.selectByName(loginUser);
+   * boolean isActive = true;
+   * 
+   * if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 ||
+   * my_hand == 3 & enemy_hand == 1) {
+   * judge = "勝利";
+   * } else if (my_hand == 1 & enemy_hand == 3 || my_hand == 2 & enemy_hand == 1
+   * || my_hand == 3 & enemy_hand == 2) {
+   * judge = "負け";
+   * } else {
+   * judge = "あいこ";
+   * }
+   * 
+   * switch (my_hand) {
+   * case 1:
+   * mhand = "Gu";
+   * break;
+   * case 2:
+   * mhand = "Choki";
+   * break;
+   * case 3:
+   * mhand = "Pa";
+   * break;
+   * default:
+   * break;
+   * }
+   * switch (enemy_hand) {
+   * case 1:
+   * ehand = "Gu";
+   * break;
+   * case 2:
+   * ehand = "Choki";
+   * break;
+   * case 3:
+   * ehand = "Pa";
+   * break;
+   * default:
+   * break;
+   * }
+   * 
+   * match.setUser1(my_id);
+   * match.setUser2(id);
+   * match.setUser1Hand(mhand);
+   * match.setUser2Hand(ehand);
+   * match.setIsActive(isActive);
+   * matchMapper.insertMatch(match);
+   * model.addAttribute("loginUser", loginUser);
+   * model.addAttribute("enemy", enemy);
+   * model.addAttribute("mhand", mhand);
+   * model.addAttribute("ehand", ehand);
+   * model.addAttribute("judge", judge);
+   * 
+   * return "match.html";
+   * 
+   * }
+   */
 
 }
