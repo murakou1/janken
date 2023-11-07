@@ -58,6 +58,7 @@ public class JankenController {
     User enemy = userMapper.selectById(id);
     Match match = new Match();
     int my_id = userMapper.selectByName(loginUser);
+    boolean isActive = false;
 
     if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 || my_hand == 3 & enemy_hand == 1) {
       judge = "勝利";
@@ -98,6 +99,7 @@ public class JankenController {
     match.setUser2(id);
     match.setUser1Hand(mhand);
     match.setUser2Hand(ehand);
+    match.setIsActive(isActive);
     matchMapper.insertMatch(match);
     model.addAttribute("loginUser", loginUser);
     model.addAttribute("enemy", enemy);
