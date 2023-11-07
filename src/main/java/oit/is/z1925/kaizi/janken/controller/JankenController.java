@@ -43,12 +43,14 @@ public class JankenController {
     String loginUser = prin.getName();
     ArrayList<User> Users = userMapper.selectAllUsers();
     ArrayList<Match> Matches = matchMapper.selectAllMatches();
+    ArrayList<MatchInfo> Info = matchInfoMapper.selectAllMatchInfo();
     // User user = userMapper.selectById(1);
     this.room.addUser(loginUser);
     model.addAttribute("room", this.room);
     model.addAttribute("loginUser", loginUser);
     model.addAttribute("Users", Users);
     model.addAttribute("Matches", Matches);
+    model.addAttribute("Info", Info);
 
     return "janken.html";
   }
@@ -127,7 +129,7 @@ public class JankenController {
 
   /*
    * @GetMapping("/fight/{my_hand}")
-   * 
+   *
    * @Transactional
    * public String fight(@PathVariable Integer my_hand, @RequestParam Integer id,
    * Principal prin, ModelMap model) {
@@ -138,7 +140,7 @@ public class JankenController {
    * Match match = new Match();
    * int my_id = userMapper.selectByName(loginUser);
    * boolean isActive = true;
-   * 
+   *
    * if (my_hand == 1 & enemy_hand == 2 || my_hand == 2 & enemy_hand == 3 ||
    * my_hand == 3 & enemy_hand == 1) {
    * judge = "勝利";
@@ -148,7 +150,7 @@ public class JankenController {
    * } else {
    * judge = "あいこ";
    * }
-   * 
+   *
    * switch (my_hand) {
    * case 1:
    * mhand = "Gu";
@@ -175,7 +177,7 @@ public class JankenController {
    * default:
    * break;
    * }
-   * 
+   *
    * match.setUser1(my_id);
    * match.setUser2(id);
    * match.setUser1Hand(mhand);
@@ -187,9 +189,9 @@ public class JankenController {
    * model.addAttribute("mhand", mhand);
    * model.addAttribute("ehand", ehand);
    * model.addAttribute("judge", judge);
-   * 
+   *
    * return "match.html";
-   * 
+   *
    * }
    */
 
